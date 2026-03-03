@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Valentine</title>
+    <style>
+        /* 폰트 및 기본 설정 */
+        @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Pacifico&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffe6eb; /* 연핑크 배경 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Gaegu', cursive; /* 귀여운 손글씨 느낌 폰트 */
+            text-align: center;
+            flex-direction: column;
+        }
+
+        /* 메인 컨테이너 */
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 텍스트 스타일 */
+        h1 {
+            font-family: 'Pacifico', cursive; /* 영어 필기체 */
+            color: #ff4d6d;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px #fff;
+        }
+
+        .message {
+            font-size: 2.5rem;
+            color: #ff4d6d;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* 이미지 스타일 */
+        .main-img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.2);
+            border: 5px solid #fff;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .main-img:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        /* 버튼 컨테이너 */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative; /* No 버튼의 절대 위치 기준점 */
+            min-height: 80px;
+        }
+
+        /* 버튼 공통 스타일 */
+        button {
+            font-family: 'Gaegu', cursive;
+            font-size: 1.5rem;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-weight: bold;
+        }
+
+        /* Yes 버튼 */
+        .yes-btn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        .yes-btn:hover {
+            background-color: #d63352;
+            transform: scale(1.1);
+        }
+
+        /* No 버튼 */
+        .no-btn {
+            background-color: #fff;
+            color: #ff4d6d;
+            position: absolute; /* 움직임을 위해 절대 위치 사용 */
+            /* 초기 위치 잡기 (flex gap 고려) */
+            left: 55%; 
+        }
+
+        /* 배경에 떠다니는 하트 효과 */
+        .bg-heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            animation: float 6s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 배경 하트들이 생성될 곳 -->
+    <div id="bg-hearts"></div>
+
+    <div class="container" id="main-content">
+        <!-- 1단계: 질문 화면 -->
+        <h1>Will you be my Valentine?</h1>
+        
+        <!-- 귀여운 하트 이미지 (Unsplash 소스) -->
+        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop" alt="Heart" class="main-img">
+        
+        <div class="btn-container">
+            <button class="yes-btn" onclick="acceptLove()">YES</button>
+            <button class="no-btn" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">NO</button>
+        </div>
+    </div>
+
+    <script>
+        // No 버튼 도망가기 로직
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            
+            // 화면 전체 크기 내에서 랜덤 위치 계산
+            // 버튼이 화면 밖으로 나가지 않도록 여유 공간(padding)을 둡니다.
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 100);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 100);
+
+            noBtn.style.position = 'fixed'; // 부모 기준이 아니라 화면 기준으로 변경
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        }
+
+        // Yes 버튼 클릭 시 화면 전환 로직
+        function acceptLove() {
+            const content = document.getElementById('main-content');
+            
+            // 내용 교체
+            content.innerHTML = `
+                <h1>Yay! ❤️</h1>
+                <!-- 사랑스러운 고양이 이미지 -->
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=600&auto=format&fit=crop" alt="Cute Cat" class="main-img">
+                <div class="message">I love you 강쥐! 🐶💕</div>
+            `;
+
+            // 축하 폭죽 효과 (간단한 하트 폭발)
+            createConfetti();
+        }
+
+        // 배경 꾸미기 (떠다니는 하트 생성)
+        function createFloatingHearts() {
+            const heartContainer = document.getElementById('bg-hearts');
+            const heartCount = 20;
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('bg-heart');
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heartContainer.appendChild(heart);
+            }
+        }
+
+        // Yes 클릭 시 추가 하트 효과
+        function createConfetti() {
+            const colors = ['#ff4d6d', '#ff8fa3', '#fff0f3'];
+            for(let i=0; i<50; i++) {
+                const confetti = document.createElement('div');
+                confetti.innerText = '💖';
+                confetti.style.position = 'fixed';
+                confetti.style.left = '50%';
+                confetti.style.top = '50%';
+                confetti.style.fontSize = '20px';
+                confetti.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+                confetti.style.transition = 'all 1s ease-out';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    const x = (Math.random() - 0.5) * window.innerWidth;
+                    const y = (Math.random() - 0.5) * window.innerHeight;
+                    confetti.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random() * 360}deg)`;
+                    confetti.style.opacity = 0;
+                }, 10);
+
+                setTimeout(() => confetti.remove(), 1000);
+            }
+        }
+
+        // 페이지 로드 시 배경 하트 실행
+        createFloatingHearts();
+    </script>
+</body>
+</html>
