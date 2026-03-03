@@ -128,7 +128,7 @@
         <h1>Will you be my Valentine?</h1>
         
         <!-- 귀여운 하트 이미지 (Unsplash 소스) -->
-        <img src="KakaoTalk_20260303_231908215.JPG" alt="Heart" class="main-img">
+        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop" alt="Heart" class="main-img">
         
         <div class="btn-container">
             <button class="yes-btn" onclick="acceptLove()">YES</button>
@@ -141,12 +141,10 @@
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             
-            // 화면 전체 크기 내에서 랜덤 위치 계산
-            // 버튼이 화면 밖으로 나가지 않도록 여유 공간(padding)을 둡니다.
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 100);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 100);
 
-            noBtn.style.position = 'fixed'; // 부모 기준이 아니라 화면 기준으로 변경
+            noBtn.style.position = 'fixed';
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         }
@@ -158,8 +156,8 @@
             // 내용 교체
             content.innerHTML = `
                 <h1>Yay! ❤️</h1>
-                <!-- 사랑스러운 고양이 이미지 -->
-                <img src="shiba.JPG" alt="Cute Shiba" class="main-img">
+                <!-- ★더 귀여운 고양이 사진으로 교체!★ -->
+                <img src="https://images.unsplash.com/photo-1574158622682-e40e6984100d?q=80&w=880&auto=format&fit=crop" alt="Cute Cat with Hearts" class="main-img">
                 <div class="message">I love you 강쥐! 🐶💕</div>
             `;
 
@@ -214,5 +212,3 @@
     </script>
 </body>
 </html>
-
-
